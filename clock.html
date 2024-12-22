@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .clock-container {
+            text-align: center;
+            border: 2px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .time {
+            font-size: 4rem;
+            margin: 0;
+        }
+        .date {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+        .greeting {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="time" id="time">00:00:00 AM</div>
+        <div class="date" id="date">Monday, January 1, 2024</div>
+        <div class="greeting" id="greeting">Good Morning!</div>
+    </div>
+
+    <script>
+        const timeElement = document.getElementById('time');
+        const dateElement = document.getElementById('date');
+        const greetingElement = document.getElementById('greeting');
+
+        function updateClock() {
+            const now = new Date();
+
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const session = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+
+            timeElement.textContent = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${session}`;
+
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const day = days[now.getDay()];
+            const month = months[now.getMonth()];
+            const date = now.getDate();
+            const year = now.getFullYear();
+            dateElement.textContent = `${day}, ${month} ${date}, ${year}`;
+
+            updateGreeting(hours, session);
+        }
+
+        function updateGreeting(hours, session) {
+            if (session === 'AM' && hours < 12) {
+                greetingElement.textContent = "Good Morning!";
+            } else if (session === 'PM' && hours < 5) {
+                greetingElement.textContent = "Good Afternoon!";
+            } else {
+                greetingElement.textContent = "Good Evening!";
+            }
+        }
+
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
